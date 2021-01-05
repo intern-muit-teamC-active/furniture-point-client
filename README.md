@@ -11,7 +11,7 @@ code furniture-point-client
 VS Code で`Reopen in Container`でコンテナ内で開き、コンテナ内のターミナルで以下を実行。
 
 ```
-expo install --frozen-lock
+yarn install --frozen-lock
 
 expo start --tunnel
 ```
