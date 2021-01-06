@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Input, Button } from "react-native-elements";
+import { ENDPOINT } from "@env";
 
 export default function LoginScreen({ navigation }) {
   /** ユーザ名 */
@@ -11,7 +12,7 @@ export default function LoginScreen({ navigation }) {
   const [isWrong, setIsWrong] = useState(false);
   /** 認証フォーム送信 */
   const autho = () => {
-    return fetch("http://192.168.0.18:3000/login", {
+    return fetch(`http://${ENDPOINT}/login`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    // alignItems: 'center',
+    alignItems: "center",
     justifyContent: "center",
   },
 });

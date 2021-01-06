@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, FlatList, ActivityIndicator } from "react-native";
 import { SearchBar, ListItem } from "react-native-elements";
+import { ENDPOINT } from "@env";
 
 export default function SearchScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [result, setResult] = useState([]);
   const [text, setText] = useState("");
-  const [productMode, setProductMode] = useState(false);
-  //   const [productInfo, setProductInfo] = useState(initialState);
 
   useEffect(() => {
-    fetch("http://192.168.0.18:3000/list")
+    fetch(`http://${ENDPOINT}/list`)
       .then((response) => response.json())
       .then((json) => {
         if (json.status === "ok") {
@@ -27,8 +26,9 @@ export default function SearchScreen({ navigation }) {
       .finally(() => setLoading(false));
   }, []);
 
+  // TODO
   const handlePress = (id) => {
-    fetch("http://192.168.0.18:3000/product", {
+    fetch(`http://${ENDPOINT}/product`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -37,7 +37,13 @@ export default function SearchScreen({ navigation }) {
       body: JSON.stringify({
         id: id,
       }),
-    }).then(() => setProductMode(true));
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.status === "SUCCESS") {
+          navigation.navigate("Product", { productid: json.data.id });
+        }
+      });
   };
 
   const searchFilter = (text) => {
@@ -67,30 +73,26 @@ export default function SearchScreen({ navigation }) {
     </ListItem>
   );
 
-  if (productMode) {
-    return <View></View>;
-  } else {
-    return (
-      <View>
-        <SearchBar
-          placeholder="製品検索"
-          lightTheme
-          onChangeText={(text) => searchFilter(text)}
-          autoCorrect={false}
-          value={text}
+  return (
+    <View>
+      <SearchBar
+        placeholder="製品検索"
+        lightTheme
+        onChangeText={(text) => searchFilter(text)}
+        autoCorrect={false}
+        value={text}
+      />
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <FlatList
+          keyExtractor={keyExtractor}
+          data={data}
+          renderItem={renderItem}
         />
-        {isLoading ? (
-          <ActivityIndicator />
-        ) : (
-          <FlatList
-            keyExtractor={keyExtractor}
-            data={data}
-            renderItem={renderItem}
-          />
-        )}
-      </View>
-    );
-  }
+      )}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
