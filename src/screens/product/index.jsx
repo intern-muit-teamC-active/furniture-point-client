@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Text } from "react-native-elements";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
 import { ENDPOINT } from "@env";
 
 export default function ProductScreen({ route, navigation }) {
   console.log(route);
   const { productid } = route.params;
   const [product, setProduct] = useState(null);
-  // const [username, setUsername] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   fetch(`http://${ENDPOINT}/show`, {
     method: "POST",
@@ -24,6 +24,7 @@ export default function ProductScreen({ route, navigation }) {
       if (json.status === "SUCCESS") {
         // 認証成功
         setProduct(json.product);
+        setIsLoading(false);
       }
     })
     .catch((error) => {
@@ -32,23 +33,29 @@ export default function ProductScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text h1>{product.name}</Text>
-      <Text h2>{product.price}円</Text>
-      <Image
-        source={{
-          uri: `http://${ENDPOINT}:3000/${prodcut.imageurl}`,
-        }}
-        style={{ width: 200, height: 200 }}
-        PlaceholderContent={<ActivityIndicator />}
-      />
-      <Button
-        title="店舗内の場所を見る"
-        onPress={() =>
-          navigation.navigate("Map", {
-            productid: product.id,
-          })
-        }
-      />
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <View>
+          <Text h1>{product.name}</Text>
+          <Text h2>{product.price}円</Text>
+          <Image
+            source={{
+              uri: `http://${ENDPOINT}:3000/${prodcut.imageurl}`,
+            }}
+            style={{ width: 200, height: 200 }}
+            PlaceholderContent={<ActivityIndicator />}
+          />
+          <Button
+            title="店舗内の場所を見る"
+            onPress={() =>
+              navigation.navigate("Map", {
+                productid: product.id,
+              })
+            }
+          />
+        </View>
+      )}
     </View>
   );
 }

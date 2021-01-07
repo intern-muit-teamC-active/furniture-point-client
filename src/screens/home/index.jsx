@@ -23,8 +23,8 @@ export default function HomeScreen({ route, navigation }) {
     .then((json) => {
       if (json.status === "SUCCESS") {
         // 認証成功
-        setPoint(json.point);
-        setUsername(json.username);
+        setPoint(json.data.point);
+        setUsername(json.data.username);
       } else {
         // 認証失敗
         navigation.navigate("Login");
