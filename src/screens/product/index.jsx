@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text } from "react-native-elements";
+import { Text, Image, Button } from "react-native-elements";
 import { View, StyleSheet, ActivityIndicator } from "react-native";
 import { ENDPOINT } from "@env";
 
@@ -41,7 +41,7 @@ export default function ProductScreen({ route, navigation }) {
           <Text h2>{product.price}円</Text>
           <Image
             source={{
-              uri: `http://${ENDPOINT}:3000/${prodcut.imageurl}`,
+              uri: `http://${ENDPOINT}:3000/${product.imageurl}`,
             }}
             style={{ width: 200, height: 200 }}
             PlaceholderContent={<ActivityIndicator />}
