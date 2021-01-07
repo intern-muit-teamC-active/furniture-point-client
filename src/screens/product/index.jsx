@@ -61,7 +61,7 @@ export default function ProductScreen({ route, navigation }) {
             title="レビューを見る"
             onPress={() =>
               navigation.navigate("Review", {
-                productid: product.id,
+                product: product,
               })
             }
           />
