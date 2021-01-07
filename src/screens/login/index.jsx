@@ -31,9 +31,7 @@ export default function LoginScreen({ navigation }) {
           navigation.navigate("Top", {
             screen: "Home",
             params: {
-              userid: json.data.id,
-              point: json.data.point,
-              username: json.data.name,
+              userid: json.data.user_id,
             },
           }); // トップ画面へ
         } else {
@@ -59,6 +57,7 @@ export default function LoginScreen({ navigation }) {
           label="パスワード"
           placeholder="パスワード"
           errorStyle={{ color: "red" }}
+          leftIcon={{ type: "font-awesome", name: "lock" }}
           errorMessage="ユーザ名かパスワードが違います"
           onChangeText={(value) => setPassword(value)}
         />

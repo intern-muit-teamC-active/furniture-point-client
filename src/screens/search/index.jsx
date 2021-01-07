@@ -13,7 +13,7 @@ export default function SearchScreen({ navigation }) {
     fetch(`http://${ENDPOINT}/list`)
       .then((response) => response.json())
       .then((json) => {
-        if (json.status === "ok") {
+        if (json.status === "SUCCESS") {
           // 認証成功
           setData(json.products);
           setResult(json.products);
@@ -28,29 +28,14 @@ export default function SearchScreen({ navigation }) {
 
   // TODO
   const handlePress = (id) => {
-    fetch(`http://${ENDPOINT}/product`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: id,
-      }),
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        if (json.status === "SUCCESS") {
-          navigation.navigate("Product", { productid: json.data.id });
-        }
-      });
+    navigation.navigate("Product", { productid: id });
   };
 
   const searchFilter = (text) => {
     setLoading(true);
     setText(text);
     const newData = result.filter((item) => {
-      const itemData = `${item.name.toUpperCase()} ${item.id.toUpperCase()}`;
+      const itemData = `${item.name.toUpperCase()}`;
 
       const textData = text.toUpperCase();
 
@@ -67,7 +52,9 @@ export default function SearchScreen({ navigation }) {
     <ListItem bottomDivider onPress={() => handlePress(item.id)}>
       <ListItem.Content>
         <ListItem.Title style={styles.title}>{item.name}</ListItem.Title>
-        <ListItem.Subtitle style={styles.subtitle}>{item.id}</ListItem.Subtitle>
+        <ListItem.Subtitle style={styles.subtitle}>
+          {item.price}
+        </ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Chevron />
     </ListItem>

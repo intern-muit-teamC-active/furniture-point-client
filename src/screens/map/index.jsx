@@ -2,43 +2,53 @@ import React, { useState } from "react";
 import { Text } from "react-native-elements";
 import { View, StyleSheet } from "react-native";
 import { ENDPOINT } from "@env";
+import { Picker } from "@react-native-picker/picker";
 
 export default function MapScreen({ route, navigation }) {
   console.log(route);
-  const { userid, point, username } = route.params;
-  // TODO /getpoint
-  // const [point, setPoint] = useState(null);
-  // const [username, setUsername] = useState(null);
+  const { productid } = route.params;
+  const [map, setMap] = useState(null);
+  const [shopid, setShopid] = useState(1);
 
-  // fetch(`http://${ENDPOINT}/getpoint`, {
-  //   method: "POST",
-  //   headers: {
-  //     Accept: "application/json",
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     userid: userid,
-  //   }),
-  // })
-  //   .then((response) => response.json())
-  //   .then((json) => {
-  //     if (json.status === "ok") {
-  //       // 認証成功
-  //       setPoint(json.point);
-  //       setUsername(json.username);
-  //     } else {
-  //       // 認証失敗
-  //       navigation.navigate("Login");
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
+  fetch(`http://${ENDPOINT}/getposition`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      product_id: productid,
+      shop_id: shopid,
+    }),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json.status === "SUCCESS") {
+        // 認証成功
+        setMap(json.map_image);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 
   return (
     <View style={styles.container}>
-      <Text h2>こんにちは{username}さん</Text>
-      <Text h1>{point}ポイント</Text>
+      <Picker
+        selectedValue={shopid}
+        style={{ height: 50, width: 150 }}
+        onValueChange={(itemValue, itemIndex) => setShopid(itemValue)}
+      >
+        <Picker.Item label="東京" value={1} />
+        <Picker.Item label="大阪" value={2} />
+      </Picker>
+      <Image
+        source={{
+          uri: `http://${ENDPOINT}:3000/${map}`,
+        }}
+        style={{ width: 200, height: 200 }}
+        PlaceholderContent={<Text>店舗を選んでください</Text>}
+      />
     </View>
   );
 }

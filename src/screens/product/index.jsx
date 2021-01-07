@@ -5,30 +5,25 @@ import { ENDPOINT } from "@env";
 
 export default function ProductScreen({ route, navigation }) {
   console.log(route);
-  const { userid, point, username } = route.params;
-  // TODO /getpoint
-  // const [point, setPoint] = useState(null);
+  const { productid } = route.params;
+  const [product, setProduct] = useState(null);
   // const [username, setUsername] = useState(null);
 
-  fetch(`http://${ENDPOINT}/product/`, {
+  fetch(`http://${ENDPOINT}/show`, {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      userid: userid,
+      product_id: productid,
     }),
   })
     .then((response) => response.json())
     .then((json) => {
-      if (json.status === "ok") {
+      if (json.status === "SUCCESS") {
         // 認証成功
-        setPoint(json.point);
-        setUsername(json.username);
-      } else {
-        // 認証失敗
-        navigation.navigate("Login");
+        setProduct(json.product);
       }
     })
     .catch((error) => {
@@ -37,8 +32,23 @@ export default function ProductScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text h2>こんにちは{username}さん</Text>
-      <Text h1>{point}ポイント</Text>
+      <Text h1>{product.name}</Text>
+      <Text h2>{product.price}円</Text>
+      <Image
+        source={{
+          uri: `http://${ENDPOINT}:3000/${prodcut.imageurl}`,
+        }}
+        style={{ width: 200, height: 200 }}
+        PlaceholderContent={<ActivityIndicator />}
+      />
+      <Button
+        title="店舗内の場所を見る"
+        onPress={() =>
+          navigation.navigate("Map", {
+            productid: product.id,
+          })
+        }
+      />
     </View>
   );
 }
