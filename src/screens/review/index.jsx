@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, FlatList, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  FlatList,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import { SearchBar, ListItem } from "react-native-elements";
 import { ENDPOINT } from "@env";
 
 export default function ReviewScreen({ route, navigation }) {
   console.log(route);
-  const { productid } = route.params;
+  const { product } = route.params;
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -18,7 +26,7 @@ export default function ReviewScreen({ route, navigation }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        product_id: productid,
+        product_id: product.id,
       }),
     })
       .then((response) => response.json())
@@ -47,13 +55,22 @@ export default function ReviewScreen({ route, navigation }) {
   );
 
   return (
-    <View>
+    <ScrollView>
+      <Text h1>{product.name}</Text>
+      <Text h2>{product.price}円</Text>
+      <Image
+        source={{
+          uri: `http://${ENDPOINT}:3000/${product.imageurl}`,
+        }}
+        style={{ width: 200, height: 200 }}
+        PlaceholderContent={<ActivityIndicator />}
+      />
       {isLoading ? (
         <ActivityIndicator />
       ) : (
         <FlatList data={data} renderItem={renderItem} />
       )}
-    </View>
+    </ScrollView>
   );
 }
 
