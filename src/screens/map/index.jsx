@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text } from "react-native-elements";
 import { View, StyleSheet } from "react-native";
 import { ENDPOINT } from "@env";
@@ -10,27 +10,29 @@ export default function MapScreen({ route, navigation }) {
   const [map, setMap] = useState(null);
   const [shopid, setShopid] = useState(1);
 
-  fetch(`http://${ENDPOINT}/getposition`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      product_id: productid,
-      shop_id: shopid,
-    }),
-  })
-    .then((response) => response.json())
-    .then((json) => {
-      if (json.status === "SUCCESS") {
-        // 認証成功
-        setMap(json.map_image);
-      }
+  useEffect(() => {
+    fetch(`http://${ENDPOINT}/getposition`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        product_id: productid,
+        shop_id: shopid,
+      }),
     })
-    .catch((error) => {
-      console.error(error);
-    });
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.status === "SUCCESS") {
+          // 認証成功
+          setMap(json.map_image);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   return (
     <View style={styles.container}>
