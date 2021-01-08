@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { Input, Button, Text } from "react-native-elements";
 import { ENDPOINT } from "@env";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
 
 export default function ReviewCreateScreen({ route, navigation }) {
@@ -10,19 +10,21 @@ export default function ReviewCreateScreen({ route, navigation }) {
   const [comment, setComment] = useState("");
   const [recommend, setRecommend] = useState("1");
   const [kind, setKind] = useState("0");
-  //   useEffect(() => {
-  //     (async () => {
-  //       try {
-  //         const useridFromServer = await AsyncStorage.getItem("@userid");
-  //         if (useridFromServer != null) {
-  //           setUserid(useridFromServer);
-  //         }
-  //       } catch (error) {
-  //         // 設定読み込みエラー
-  //         console.log(error);
-  //       }
-  //     })();
-  //   }, []);
+  const [userid, setUserid] = useState("0");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const useridFromServer = await AsyncStorage.getItem("@userid");
+        if (useridFromServer != null) {
+          setUserid(useridFromServer);
+        }
+      } catch (error) {
+        // 設定読み込みエラー
+        console.log(error);
+      }
+    })();
+  }, []);
   /** 認証フォーム送信 */
   const sendCommnet = () => {
     return fetch(`http://${ENDPOINT}/review`, {
@@ -36,13 +38,14 @@ export default function ReviewCreateScreen({ route, navigation }) {
         kind: parseInt(kind),
         comment: comment,
         recommend: parseInt(recommend),
+        user_id: userid,
       }),
     })
       .then((response) => response.json())
       .then((json) => {
         if (json.status === "SUCCESS") {
           // 認証成功
-          alert("投稿完了しました");
+          alert(`投稿完了しました。${json.add_point}ポイント獲得しました`);
           navigation.goBack();
         }
       })
