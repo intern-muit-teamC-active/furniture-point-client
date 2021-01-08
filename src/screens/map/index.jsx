@@ -48,11 +48,11 @@ export default function MapScreen({ route, navigation }) {
         }}
       >
         <Picker.Item label="選択なし" value="0" />
-        <Picker.Item label="東京" value="1" />
-        <Picker.Item label="大阪" value="2" />
+        <Picker.Item label="越谷" value="1" />
+        <Picker.Item label="大宮" value="2" />
       </Picker>
       {shopid === 0 ? (
-        <ActivityIndicator />
+        <Text>店舗を選んでください</Text>
       ) : (
         <Image
           source={{

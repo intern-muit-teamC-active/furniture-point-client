@@ -45,7 +45,9 @@ export default function ReviewScreen({ route, navigation }) {
   const renderItem = ({ item }) => (
     <ListItem>
       <ListItem.Content>
-        <ListItem.Title style={styles.title}>{item.recommend}</ListItem.Title>
+        <ListItem.Title style={styles.title}>
+          {item.recommend.toString()}
+        </ListItem.Title>
         <ListItem.Subtitle style={styles.subtitle}>
           {item.comment}
         </ListItem.Subtitle>
