@@ -4,7 +4,6 @@ import { View, StyleSheet, ActivityIndicator } from "react-native";
 import { ENDPOINT } from "@env";
 
 export default function HomeScreen({ route, navigation }) {
-  console.log(route);
   const { userid } = route.params;
   const [point, setPoint] = useState(null);
   const [username, setUsername] = useState(null);
@@ -41,13 +40,6 @@ export default function HomeScreen({ route, navigation }) {
     <View style={styles.container}>
       <Text h2>こんにちは{username}さん</Text>
       <Text h1>{point}ポイント</Text>
-      <Image
-        source={{
-          uri: `http://${ENDPOINT}:3000/product_image/table_s98fka.png`,
-        }}
-        style={{ width: 200, height: 200 }}
-        PlaceholderContent={<ActivityIndicator />}
-      />
     </View>
   );
 }
