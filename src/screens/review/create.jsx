@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { Input, Button, Text } from "react-native-elements";
 import { ENDPOINT } from "@env";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -53,38 +53,40 @@ export default function ReviewCreateScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text h3>購入か展示か</Text>
-      <Picker
-        selectedValue={kind}
-        tyle={styles.picker}
-        onValueChange={(itemValue, itemIndex) => {
-          setKind(itemValue);
-        }}
-      >
-        <Picker.Item label="購入後レビュー" value="0" />
-        <Picker.Item label="展示を見てのレビュー" value="1" />
-      </Picker>
-      <Text h3>おすすめ度</Text>
-      <Picker
-        selectedValue={recommend}
-        tyle={styles.picker}
-        onValueChange={(itemValue, itemIndex) => {
-          setRecommend(itemValue);
-        }}
-      >
-        <Picker.Item label="1" value="1" />
-        <Picker.Item label="2" value="2" />
-        <Picker.Item label="3" value="3" />
-        <Picker.Item label="4" value="4" />
-        <Picker.Item label="5" value="5" />
-      </Picker>
-      <Input
-        label="コメント"
-        placeholder="コメント"
-        leftIcon={{ type: "font-awesome", name: "comment" }}
-        onChangeText={(value) => setComment(value)}
-      />
-      <Button title="投稿" onPress={sendCommnet} />
+      <ScrollView>
+        <Text h4>購入か展示か</Text>
+        <Picker
+          selectedValue={kind}
+          tyle={styles.picker}
+          onValueChange={(itemValue, itemIndex) => {
+            setKind(itemValue);
+          }}
+        >
+          <Picker.Item label="購入後レビュー" value="0" />
+          <Picker.Item label="展示を見てのレビュー" value="1" />
+        </Picker>
+        <Text h4>おすすめ度</Text>
+        <Picker
+          selectedValue={recommend}
+          tyle={styles.picker}
+          onValueChange={(itemValue, itemIndex) => {
+            setRecommend(itemValue);
+          }}
+        >
+          <Picker.Item label="1" value="1" />
+          <Picker.Item label="2" value="2" />
+          <Picker.Item label="3" value="3" />
+          <Picker.Item label="4" value="4" />
+          <Picker.Item label="5" value="5" />
+        </Picker>
+        <Input
+          label="コメント"
+          placeholder="コメント"
+          leftIcon={{ type: "font-awesome", name: "comment" }}
+          onChangeText={(value) => setComment(value)}
+        />
+        <Button title="投稿" onPress={sendCommnet} />
+      </ScrollView>
     </View>
   );
 }
