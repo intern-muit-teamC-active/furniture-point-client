@@ -38,6 +38,17 @@ export default function MapScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      {shopid === 0 ? (
+        <Text> ▼店舗を選んでください</Text>
+      ) : (
+        <Image
+          source={{
+            uri: `http://${ENDPOINT}/${map}`,
+          }}
+          style={{ width: 200, height: 200 }}
+          PlaceholderContent={<Text>店舗を選んでください</Text>}
+        />
+      )}
       <Picker
         selectedValue={shopid.toString()}
         tyle={styles.picker}
@@ -51,17 +62,6 @@ export default function MapScreen({ route, navigation }) {
         <Picker.Item label="越谷" value="1" />
         <Picker.Item label="大宮" value="2" />
       </Picker>
-      {shopid === 0 ? (
-        <Text>店舗を選んでください</Text>
-      ) : (
-        <Image
-          source={{
-            uri: `http://${ENDPOINT}/${map}`,
-          }}
-          style={{ width: 200, height: 200 }}
-          PlaceholderContent={<Text>店舗を選んでください</Text>}
-        />
-      )}
     </View>
   );
 }
