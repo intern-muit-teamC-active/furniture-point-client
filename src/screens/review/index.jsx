@@ -66,28 +66,29 @@ export default function ReviewScreen({ route, navigation }) {
 
   return (
     <View>
-      <ScrollView>
-        <Text h1>{product.name}</Text>
-        <Text h2>{product.price}円</Text>
-        <Image
-          source={{
-            uri: `http://${ENDPOINT}/${product.imageurl}`,
-          }}
-          style={{ width: 200, height: 200 }}
-          PlaceholderContent={<ActivityIndicator />}
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <FlatList
+          ListHeaderComponent={
+            <>
+              <Text h1>{product.name}</Text>
+              <Text h2>{product.price}円</Text>
+              <Image
+                source={{
+                  uri: `http://${ENDPOINT}/${product.imageurl}`,
+                }}
+                style={{ width: 200, height: 200 }}
+                PlaceholderContent={<ActivityIndicator />}
+              />
+            </>
+          }
+          keyExtractor={keyExtractor}
+          data={data}
+          renderItem={renderItem}
+          ListFooterComponent={<View />}
         />
-        {isLoading ? (
-          <ActivityIndicator />
-        ) : (
-          <View>
-            <FlatList
-              keyExtractor={keyExtractor}
-              data={data}
-              renderItem={renderItem}
-            />
-          </View>
-        )}
-      </ScrollView>
+      )}
     </View>
   );
 }

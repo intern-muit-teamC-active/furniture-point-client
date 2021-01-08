@@ -53,7 +53,7 @@ export default function SearchScreen({ navigation }) {
       <ListItem.Content>
         <ListItem.Title style={styles.title}>{item.name}</ListItem.Title>
         <ListItem.Subtitle style={styles.subtitle}>
-          {item.price}
+          <Text>{item.price}円</Text>
         </ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Chevron />
