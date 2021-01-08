@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, Image, Button } from "react-native-elements";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { View, StyleSheet, ActivityIndicator, ScrollView } from "react-native";
 import { ENDPOINT } from "@env";
 
 export default function ProductScreen({ route, navigation }) {
@@ -36,48 +36,50 @@ export default function ProductScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        <View>
-          <Text h1>{product.name}</Text>
-          <Text h2>{product.price}円</Text>
-          <Image
-            source={{
-              uri: `http://${ENDPOINT}/${product.imageurl}`,
-            }}
-            style={{ width: 200, height: 200 }}
-            PlaceholderContent={<ActivityIndicator />}
-          />
-          <Button
-            title="店舗内の場所を見る"
-            onPress={() =>
-              navigation.navigate("Map", {
-                productid: product.id,
-              })
-            }
-            buttonStyle={styles.button}
-          />
-          <Button
-            title="レビューを見る"
-            onPress={() =>
-              navigation.navigate("Review", {
-                product: product,
-              })
-            }
-            buttonStyle={styles.button}
-          />
-          <Button
-            title="レビューを投稿する"
-            onPress={() =>
-              navigation.navigate("ReviewCreate", {
-                product: product,
-              })
-            }
-            buttonStyle={styles.button}
-          />
-        </View>
-      )}
+      <ScrollView>
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <View>
+            <Text h1>{product.name}</Text>
+            <Text h2>{product.price}円</Text>
+            <Image
+              source={{
+                uri: `http://${ENDPOINT}/${product.imageurl}`,
+              }}
+              style={{ width: 200, height: 200 }}
+              PlaceholderContent={<ActivityIndicator />}
+            />
+            <Button
+              title="店舗内の場所を見る"
+              onPress={() =>
+                navigation.navigate("Map", {
+                  productid: product.id,
+                })
+              }
+              buttonStyle={styles.button}
+            />
+            <Button
+              title="レビューを見る"
+              onPress={() =>
+                navigation.navigate("Review", {
+                  product: product,
+                })
+              }
+              buttonStyle={styles.button}
+            />
+            <Button
+              title="レビューを投稿する"
+              onPress={() =>
+                navigation.navigate("ReviewCreate", {
+                  product: product,
+                })
+              }
+              buttonStyle={styles.button}
+            />
+          </View>
+        )}
+      </ScrollView>
     </View>
   );
 }

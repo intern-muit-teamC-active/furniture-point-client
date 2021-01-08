@@ -53,6 +53,7 @@ export default function ReviewCreateScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <Text h3>購入か展示か</Text>
       <Picker
         selectedValue={kind}
         tyle={styles.picker}
@@ -63,6 +64,7 @@ export default function ReviewCreateScreen({ route, navigation }) {
         <Picker.Item label="購入後レビュー" value="0" />
         <Picker.Item label="展示を見てのレビュー" value="1" />
       </Picker>
+      <Text h3>おすすめ度</Text>
       <Picker
         selectedValue={recommend}
         tyle={styles.picker}

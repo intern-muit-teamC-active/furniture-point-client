@@ -6,7 +6,7 @@ import {
   FlatList,
   View,
   ActivityIndicator,
-  Badge,
+  ScrollView,
 } from "react-native";
 import { ListItem, Rating } from "react-native-elements";
 import { ENDPOINT } from "@env";
@@ -66,24 +66,28 @@ export default function ReviewScreen({ route, navigation }) {
 
   return (
     <View>
-      <Text h1>{product.name}</Text>
-      <Text h2>{product.price}円</Text>
-      <Image
-        source={{
-          uri: `http://${ENDPOINT}/${product.imageurl}`,
-        }}
-        style={{ width: 200, height: 200 }}
-        PlaceholderContent={<ActivityIndicator />}
-      />
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        <FlatList
-          keyExtractor={keyExtractor}
-          data={data}
-          renderItem={renderItem}
+      <ScrollView>
+        <Text h1>{product.name}</Text>
+        <Text h2>{product.price}円</Text>
+        <Image
+          source={{
+            uri: `http://${ENDPOINT}/${product.imageurl}`,
+          }}
+          style={{ width: 200, height: 200 }}
+          PlaceholderContent={<ActivityIndicator />}
         />
-      )}
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <View>
+            <FlatList
+              keyExtractor={keyExtractor}
+              data={data}
+              renderItem={renderItem}
+            />
+          </View>
+        )}
+      </ScrollView>
     </View>
   );
 }

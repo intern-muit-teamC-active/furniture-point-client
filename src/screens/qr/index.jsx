@@ -50,7 +50,9 @@ export default function QRScreen({ navigation }) {
           const point = json.data.point_different;
           if (point < 0) {
             alert(
-              `${point}ポイント使いました！残り${json.data.current_point}ポイントです`
+              `${-point}ポイント使いました！残り${
+                json.data.current_point
+              }ポイントです`
             );
           } else {
             alert(`${point}ポイントゲットしました！`);
