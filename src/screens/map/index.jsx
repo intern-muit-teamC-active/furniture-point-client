@@ -27,7 +27,7 @@ export default function MapScreen({ route, navigation }) {
         .then((json) => {
           if (json.status === "SUCCESS") {
             // 認証成功
-            setMap(json.data.map_image);
+            setMap(json.data.map_url);
           }
         })
         .catch((error) => {

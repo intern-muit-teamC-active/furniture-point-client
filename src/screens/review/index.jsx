@@ -60,7 +60,7 @@ export default function ReviewScreen({ route, navigation }) {
       <Text h2>{product.price}円</Text>
       <Image
         source={{
-          uri: `http://${ENDPOINT}:3000/${product.imageurl}`,
+          uri: `http://${ENDPOINT}/${product.imageurl}`,
         }}
         style={{ width: 200, height: 200 }}
         PlaceholderContent={<ActivityIndicator />}
