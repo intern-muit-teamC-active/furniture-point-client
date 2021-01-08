@@ -56,6 +56,7 @@ export default function ProductScreen({ route, navigation }) {
                 productid: product.id,
               })
             }
+            buttonStyle={styles.button}
           />
           <Button
             title="レビューを見る"
@@ -64,6 +65,16 @@ export default function ProductScreen({ route, navigation }) {
                 product: product,
               })
             }
+            buttonStyle={styles.button}
+          />
+          <Button
+            title="レビューを投稿する"
+            onPress={() =>
+              navigation.navigate("ReviewCreate", {
+                product: product,
+              })
+            }
+            buttonStyle={styles.button}
           />
         </View>
       )}
@@ -78,4 +89,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  button: { margin: 10 },
 });

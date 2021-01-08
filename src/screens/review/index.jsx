@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
-  View,
   Text,
   Image,
   FlatList,
-  ScrollView,
+  View,
   ActivityIndicator,
+  Badge,
 } from "react-native";
-import { SearchBar, ListItem } from "react-native-elements";
+import { ListItem, Rating } from "react-native-elements";
 import { ENDPOINT } from "@env";
 
 export default function ReviewScreen({ route, navigation }) {
@@ -42,22 +42,30 @@ export default function ReviewScreen({ route, navigation }) {
       });
   }, []);
 
+  const renderKind = (kind) => {
+    const text = kind === "purchase" ? "購入者レビュー" : "展示来場者レビュー";
+    const status = kind === "purchase" ? "primary" : "success";
+    return <Text>{text}</Text>;
+  };
+
+  const keyExtractor = (_item, index) => index.toString();
+
   const renderItem = ({ item }) => (
     <ListItem>
       <ListItem.Content>
         <ListItem.Title style={styles.title}>
-          {item.recommend.toString()}
+          <Rating imageSize={20} readonly startingValue={item.recommend} />
+          {renderKind(item.kind)}
         </ListItem.Title>
         <ListItem.Subtitle style={styles.subtitle}>
           {item.comment}
         </ListItem.Subtitle>
       </ListItem.Content>
-      <ListItem.Chevron />
     </ListItem>
   );
 
   return (
-    <ScrollView>
+    <View>
       <Text h1>{product.name}</Text>
       <Text h2>{product.price}円</Text>
       <Image
@@ -70,9 +78,13 @@ export default function ReviewScreen({ route, navigation }) {
       {isLoading ? (
         <ActivityIndicator />
       ) : (
-        <FlatList data={data} renderItem={renderItem} />
+        <FlatList
+          keyExtractor={keyExtractor}
+          data={data}
+          renderItem={renderItem}
+        />
       )}
-    </ScrollView>
+    </View>
   );
 }
 
