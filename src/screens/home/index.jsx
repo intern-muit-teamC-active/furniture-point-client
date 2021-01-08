@@ -10,31 +10,36 @@ export default function HomeScreen({ route, navigation }) {
 
   useEffect(() => {
     console.log("getpoint");
-    fetch(`http://${ENDPOINT}/getpoint`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_id: userid,
-      }),
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        if (json.status === "SUCCESS") {
-          // 認証成功
-          setPoint(json.data.point);
-          setUsername(json.data.username);
-        } else {
-          // 認証失敗
-          navigation.navigate("Login");
-        }
+    const unsubscribe = navigation.addListener("focus", () => {
+      // The screen is focused
+      // Call any action
+      fetch(`http://${ENDPOINT}/getpoint`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: userid,
+        }),
       })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+        .then((response) => response.json())
+        .then((json) => {
+          if (json.status === "SUCCESS") {
+            // 認証成功
+            setPoint(json.data.point);
+            setUsername(json.data.username);
+          } else {
+            // 認証失敗
+            navigation.navigate("Login");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <View style={styles.container}>

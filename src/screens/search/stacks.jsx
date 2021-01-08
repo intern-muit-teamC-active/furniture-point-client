@@ -5,6 +5,7 @@ import SearchScreen from "./index";
 import ProductScreen from "../product/index";
 import MapScreen from "../map/index";
 import ReviewScreen from "../review/index";
+import ReviewCreateScreen from "../review/create";
 
 export default function SearchStackScreens() {
   const Stack = createStackNavigator();
@@ -14,6 +15,7 @@ export default function SearchStackScreens() {
       <Stack.Screen name="Product" component={ProductScreen} />
       <Stack.Screen name="Map" component={MapScreen} />
       <Stack.Screen name="Review" component={ReviewScreen} />
+      <Stack.Screen name="ReviewCreate" component={ReviewCreateScreen} />
     </Stack.Navigator>
   );
 }
