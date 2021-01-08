@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { Input, Button } from "react-native-elements";
 import { ENDPOINT } from "@env";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginScreen({ navigation }) {
   /** ユーザ名 */
@@ -10,6 +11,30 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState("");
   /** 認証失敗か */
   const [isWrong, setIsWrong] = useState(false);
+  const [userid, setUserid] = useState("-1");
+  useEffect(() => {
+    (async () => {
+      try {
+        const useridFromServer = await AsyncStorage.getItem("@userid");
+        if (useridFromServer != null) {
+          setUserid(useridFromServer);
+        }
+      } catch (error) {
+        // 設定読み込みエラー
+        console.log(error);
+      }
+    })();
+  }, []);
+  useEffect(() => {
+    (async () => {
+      try {
+        await AsyncStorage.setItem("@userid", userid);
+      } catch (error) {
+        // 設定保存エラー
+        console.log(error);
+      }
+    })();
+  }, [userid]);
   /** 認証フォーム送信 */
   const autho = () => {
     return fetch(`http://${ENDPOINT}/login`, {
@@ -27,7 +52,7 @@ export default function LoginScreen({ navigation }) {
       .then((json) => {
         if (json.status === "SUCCESS") {
           // 認証成功
-          console.log(json);
+          setUserid(json.data.user_id.toString());
           navigation.navigate("Top", {
             screen: "Home",
             params: {

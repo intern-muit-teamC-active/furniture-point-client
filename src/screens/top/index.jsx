@@ -9,6 +9,7 @@ export default function TopScreen() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
+      options={{ headerShown: false }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -24,8 +25,6 @@ export default function TopScreen() {
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        headerStyle: { backgroundColor: "#706fd3" },
-        headerTintColor: "white",
       })}
       tabBarOptions={{
         activeTintColor: "tomato",

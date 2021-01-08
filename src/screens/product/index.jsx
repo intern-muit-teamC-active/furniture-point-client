@@ -43,7 +43,7 @@ export default function ProductScreen({ route, navigation }) {
           <Text h2>{product.price}円</Text>
           <Image
             source={{
-              uri: `http://${ENDPOINT}:3000/${product.imageurl}`,
+              uri: `http://${ENDPOINT}/${product.imageurl}`,
             }}
             style={{ width: 200, height: 200 }}
             PlaceholderContent={<ActivityIndicator />}
@@ -52,6 +52,22 @@ export default function ProductScreen({ route, navigation }) {
             title="店舗内の場所を見る"
             onPress={() =>
               navigation.navigate("Map", {
+                productid: product.id,
+              })
+            }
+          />
+          <Button
+            title="レビューを見る(未実装)"
+            onPress={() =>
+              navigation.navigate("Review", {
+                productid: product.id,
+              })
+            }
+          />
+          <Button
+            title="レビューを投稿する(未実装)"
+            onPress={() =>
+              navigation.navigate("Review", {
                 productid: product.id,
               })
             }
