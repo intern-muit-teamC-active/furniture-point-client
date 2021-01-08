@@ -9,6 +9,7 @@ export default function HomeScreen({ route, navigation }) {
   const [username, setUsername] = useState(null);
 
   useEffect(() => {
+    console.log("getpoint");
     fetch(`http://${ENDPOINT}/getpoint`, {
       method: "POST",
       headers: {

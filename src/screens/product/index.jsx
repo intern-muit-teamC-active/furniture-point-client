@@ -10,6 +10,7 @@ export default function ProductScreen({ route, navigation }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    console.log("show");
     fetch(`http://${ENDPOINT}/show`, {
       method: "POST",
       headers: {
@@ -57,18 +58,10 @@ export default function ProductScreen({ route, navigation }) {
             }
           />
           <Button
-            title="レビューを見る(未実装)"
+            title="レビューを見る"
             onPress={() =>
               navigation.navigate("Review", {
-                productid: product.id,
-              })
-            }
-          />
-          <Button
-            title="レビューを投稿する(未実装)"
-            onPress={() =>
-              navigation.navigate("Review", {
-                productid: product.id,
+                product: product,
               })
             }
           />
