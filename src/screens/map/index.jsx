@@ -45,7 +45,7 @@ export default function MapScreen({ route, navigation }) {
           source={{
             uri: `http://${ENDPOINT}/${map}`,
           }}
-          style={{ width: 200, height: 200 }}
+          style={{ width: 400, height: 400 }}
           PlaceholderContent={<Text>店舗を選んでください</Text>}
         />
       )}
